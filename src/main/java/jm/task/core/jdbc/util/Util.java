@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class Util {
     // реализуйте настройку соеденения с БД
@@ -40,20 +41,36 @@ public class Util {
 //        return sessionFactory;
 //    }
 
+//    public static SessionFactory getSessionFactory() {
+//        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+//        Map<String, String> settings = new HashMap<>();
+//        settings.put(Environment.DRIVER, DRIVER);
+//        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+//        settings.put(Environment.URL, URL);
+//        settings.put(Environment.USER, USER_NAME);
+//        settings.put(Environment.PASS, PASSWORD);
+//        registryBuilder.applySettings(settings);
+//        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+//                .applySettings(settings).build();
+//        MetadataSources metadataSources = new MetadataSources(serviceRegistry)
+//                .addAnnotatedClass(User.class);
+//        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+//        return sessionFactory;
+//    }
+
     public static SessionFactory getSessionFactory() {
-        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-        Map<String, String> settings = new HashMap<>();
-        settings.put(Environment.DRIVER, DRIVER);
-        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        settings.put(Environment.URL, URL);
-        settings.put(Environment.USER, USER_NAME);
-        settings.put(Environment.PASS, PASSWORD);
-        registryBuilder.applySettings(settings);
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(settings).build();
-        MetadataSources metadataSources = new MetadataSources(serviceRegistry)
-                .addAnnotatedClass(User.class);
-        SessionFactory sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.connection.url", URL);
+        properties.setProperty("hibernate.connection.username", USER_NAME);
+        properties.setProperty("hibernate.connection.password", PASSWORD);
+        properties.setProperty("hibernate.connection.driver_class", DRIVER);
+        properties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+
+        SessionFactory sessionFactory = new org.hibernate.cfg.Configuration()
+                .addProperties(properties)
+                .addAnnotatedClass(User.class)
+                .buildSessionFactory();
         return sessionFactory;
     }
 }
