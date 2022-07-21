@@ -21,6 +21,7 @@ public class Util {
     private static final String PASSWORD = "root1";
     private static final String URL = "jdbc:MySQL://localhost/pptest?serverTimezone=Europe/Moscow&useSSL=false";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String DIALECT = "org.hibernate.dialect.MySQLDialect";
 
     public static Connection getConnection() {
         Connection connection = null;
@@ -45,7 +46,7 @@ public class Util {
 //        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 //        Map<String, String> settings = new HashMap<>();
 //        settings.put(Environment.DRIVER, DRIVER);
-//        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+//        settings.put(Environment.DIALECT, DIALECT);
 //        settings.put(Environment.URL, URL);
 //        settings.put(Environment.USER, USER_NAME);
 //        settings.put(Environment.PASS, PASSWORD);
@@ -64,7 +65,7 @@ public class Util {
         properties.setProperty("hibernate.connection.username", USER_NAME);
         properties.setProperty("hibernate.connection.password", PASSWORD);
         properties.setProperty("hibernate.connection.driver_class", DRIVER);
-        properties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty("dialect", DIALECT);
         properties.setProperty("hibernate.hbm2ddl.auto", "create");
 
         SessionFactory sessionFactory = new org.hibernate.cfg.Configuration()
